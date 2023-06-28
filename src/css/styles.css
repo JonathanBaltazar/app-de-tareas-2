@@ -1,0 +1,15 @@
+:root {
+    --special-blue: #8097ea;
+}
+.clicked-btn {
+    color: var(--special-blue);
+    border-bottom: var(--special-blue) 4px solid;
+}
+.not-clicked-btn {
+    color: #000;
+    border-bottom: none;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
