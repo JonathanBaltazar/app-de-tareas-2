@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./css/build.css";
 
+import "./dist/output.css";
+
 import { v4 as uuidv4 } from "uuid";
 
 // CUSTOM STYLES
@@ -11,15 +13,24 @@ import TaskForm from "./components/TaskForm";
 import TasksList from "./components/TasksList";
 // import TaskRow from "./components/TaskRow";
 import Button from "./components/Button";
+// import OptionItem from "./components/OptionItem";
+import OptionsMenu from "./components/OptionsMenu";
 
 function App() {
     // useState, es asincrono
     let [tasks, setTasks] = useState([]);
-    let [showNotDone, setShowNotDone] = useState(false);
+    let [showNotDone, setShowNotDone] = useState(true);
 
     function saveTaskInArray(task) {
         if (task.length > 0) {
-            setTasks([...tasks, { id: task, name: task, done: false }]);
+            let taskFounded = tasks.filter((taskItem) => {
+                return taskItem.name == task;
+            });
+            if (taskFounded.length > 0) {
+                alert("Ya tienes una tarea con este nombre!");
+            } else {
+                setTasks([...tasks, { id: task, name: task, done: false }]);
+            }
         }
     }
 
@@ -60,6 +71,12 @@ function App() {
         return tasksDone;
     }
 
+    // Delete done tasks
+    function deleteDoneTasks() {
+        let newList = tasks.filter((taskItem) => taskItem.done == false);
+        setTasks(newList);
+    }
+
     useEffect(() => {
         // TOMA LOS DATOS ANTES DE QUE EL SEGUNDO useEffect se ejecute
         if (JSON.parse(localStorage.getItem("tasks"))) {
@@ -87,35 +104,28 @@ function App() {
                     <Button
                         nameBtn="Pendientes"
                         setShowNotDone={setShowNotDone}
-                        listState={false}
-                        btnStyles={
-                            !showNotDone ? "clicked-btn" : "not-clicked-btn"
-                        }
-                    />
-                    <Button
-                        nameBtn="Hechas"
-                        setShowNotDone={setShowNotDone}
                         listState={true}
                         btnStyles={
                             showNotDone ? "clicked-btn" : "not-clicked-btn"
                         }
                     />
+                    <Button
+                        nameBtn="Hechas"
+                        setShowNotDone={setShowNotDone}
+                        listState={false}
+                        btnStyles={
+                            !showNotDone ? "clicked-btn" : "not-clicked-btn"
+                        }
+                    />
                 </div>
-                {showNotDone && (
-                    <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-md"
-                        onClick={() => {
-                            let newList = tasks.filter(
-                                (taskItem) => taskItem.done == false
-                            );
-                            setTasks(newList);
-                        }}
-                    >
-                        Limpiar Tareas
-                    </button>
-                )}
+                {!showNotDone ? (
+                    <OptionsMenu
+                        itemName="Limpiar tareas"
+                        itemFunction={deleteDoneTasks}
+                    />
+                ) : null}
             </div>
-            {!showNotDone ? (
+            {showNotDone ? (
                 <TasksList
                     tasksList={getTasksNotDone}
                     changeTaskState={changeTaskState}
@@ -123,7 +133,7 @@ function App() {
                     deleteTask={deleteTask}
                 />
             ) : null}
-            {showNotDone ? (
+            {!showNotDone ? (
                 <TasksList
                     tasksList={getTasksDone}
                     changeTaskState={changeTaskState}

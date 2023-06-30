@@ -18,7 +18,7 @@ function TaskForm({ saveTaskInArray }) {
             }}
         >
             <input
-                className="px-4 rounded-full outline-none shadow-lg flex-grow"
+                className="p-4 rounded-full outline-none shadow-lg flex-grow w-full"
                 type="text"
                 value={newTask}
                 placeholder="Guarda tu tarea"
@@ -28,7 +28,8 @@ function TaskForm({ saveTaskInArray }) {
                 autoFocus
             />
             <button
-                className="ml-2 rounded-full shadow-xl shadow-neutral-300 p-4 text-white text-2xl"
+                className="ml-2 rounded-full shadow-xl shadow-neutral-300 text-white text-2xl p-4 hidden sm:block"
+                // sm:block
                 style={{ backgroundColor: "var(--special-blue)" }}
             >
                 <VscAdd />
