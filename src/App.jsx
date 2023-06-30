@@ -19,7 +19,7 @@ function App() {
 
     function saveTaskInArray(task) {
         if (task.length > 0) {
-            setTasks([...tasks, { id: uuidv4(), name: task, done: false }]);
+            setTasks([...tasks, { id: task, name: task, done: false }]);
         }
     }
 
