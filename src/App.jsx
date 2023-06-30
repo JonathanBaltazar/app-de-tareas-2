@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./css/build.css";
 
-import "./dist/output.css";
+// import "./dist/output.css";
 
 import { v4 as uuidv4 } from "uuid";
 
